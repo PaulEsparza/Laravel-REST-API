@@ -18,4 +18,8 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });*/
 
-Route::get('/', [TasksController::class, 'index'])->name('getTasks');
+Route::get('tareas', [TasksController::class, 'index'])->name('getTasks');
+
+Route::post('tareas', [TasksController::class, 'store'])->name('createTask');
+
+Route::get('tareas/{id}', [TasksController::class, 'show'])->name('getTask');

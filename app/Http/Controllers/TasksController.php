@@ -38,6 +38,19 @@ class TasksController extends Controller
     public function store(Request $request)
     {
         //
+        /*Tasks::create([
+            'responsable' => $request('responsable'),
+            'description' => $request('description')
+        ]);*/
+
+        $task = new Tasks;
+        $task->responsable = $request->responsable;
+        $task->description = $request->description;
+        $task->save();
+
+        return response()->json([
+            "message" => "task created"
+        ], 201);
     }
 
     /**
@@ -46,9 +59,17 @@ class TasksController extends Controller
      * @param  \App\Models\Tasks  $tasks
      * @return \Illuminate\Http\Response
      */
-    public function show(Tasks $tasks)
+    public function show($id)
     {
         //
+        if(Tasks::where('id', $id)->exists()){
+            $task = Tasks::findOrFail($id);
+            return $task;
+        }else{
+            return response()->json([
+                "message" => "task not found"
+            ], 404);
+        }
     }
 
     /**
