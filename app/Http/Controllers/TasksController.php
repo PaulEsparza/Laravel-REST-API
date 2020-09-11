@@ -14,9 +14,8 @@ class TasksController extends Controller
      */
     public function index()
     {
-        //
         $tasks = Tasks::all();
-        return $tasks;
+        return response($tasks, 200);
     }
 
     /**
@@ -35,25 +34,25 @@ class TasksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    //public function store(Request $request)
+    public function store()
     {
-        //
-        /*Tasks::create([
-            'responsable' => $request('responsable'),
-            'description' => $request('description')
-        ]);*/
+        Tasks::create([
+            'responsable' => request('responsable'),
+            'description' => request('description')
+        ]);
 
         /*$task = new Tasks;
         $task->responsable = $request->responsable;
         $task->description = $request->description;
         $task->save();*/
 
-        $task = Tasks::create($request->all());
-        return $task;
+        /*$task = Tasks::create($request->all());
+        return $task;*/
 
-        /*return response()->json([
+        return response()->json([
             "message" => "task created"
-        ], 201);*/
+        ], 201);
     }
 
     /**
@@ -126,6 +125,7 @@ class TasksController extends Controller
             //Tasks::destroy($id);
             $task = Tasks::findOrFail($id);
             $task->delete();
+
             return response()->json([
                 "message" => "task deleted"
             ], 202);
