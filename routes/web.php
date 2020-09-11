@@ -23,3 +23,5 @@ Route::get('tareas', [TasksController::class, 'index'])->name('getTasks');
 Route::post('tareas', [TasksController::class, 'store'])->name('createTask');
 
 Route::get('tareas/{id}', [TasksController::class, 'show'])->name('getTask');
+
+Route::delete('tareas/{id}', [TasksController::class, 'destroy'])->name('deleteTask');

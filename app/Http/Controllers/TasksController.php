@@ -43,14 +43,17 @@ class TasksController extends Controller
             'description' => $request('description')
         ]);*/
 
-        $task = new Tasks;
+        /*$task = new Tasks;
         $task->responsable = $request->responsable;
         $task->description = $request->description;
-        $task->save();
+        $task->save();*/
 
-        return response()->json([
+        $task = Tasks::create($request->all());
+        return $task;
+
+        /*return response()->json([
             "message" => "task created"
-        ], 201);
+        ], 201);*/
     }
 
     /**
@@ -101,8 +104,20 @@ class TasksController extends Controller
      * @param  \App\Models\Tasks  $tasks
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tasks $tasks)
+    public function destroy($id)
     {
         //
+        if(Tasks::where('id', $id)->exists()){
+            //Tasks::destroy($id);
+            $task = Tasks::findOrFail($id);
+            $task->delete();
+            return response()->json([
+                "message" => "task deleted"
+            ], 202);
+        }else{
+            return response()->json([
+                "message" => "task not found"
+            ], 404);
+        }
     }
 }
