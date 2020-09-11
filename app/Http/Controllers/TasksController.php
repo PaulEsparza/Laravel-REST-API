@@ -93,9 +93,24 @@ class TasksController extends Controller
      * @param  \App\Models\Tasks  $tasks
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tasks $tasks)
+    public function update(Request $request, $id)
     {
         //
+        if(Tasks::where('id', $id)->exists()){
+            $task = Tasks::findOrFail($id);
+
+            $task->responsable = is_null($request->responsable) ? $task->responsable : $request->responsable;
+            $task->description = is_null($request->description) ? $task->description : $request->description;
+            $task->save();
+
+            return response()->json([
+                "message" => "task updated"
+            ], 200);
+        }else{
+            return response()->json([
+                "message" => "task not found"
+            ], 404);
+        }
     }
 
     /**
